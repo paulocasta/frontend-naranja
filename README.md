@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# 📘 Documentación Técnica – App “Naranja Mecánica Frontend”
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🧩 General
 
-## Available Scripts
+- **Tipo de proyecto:** Web app de fútbol amateur  
+- **Nombre:** Naranja Mecánica  
+- **Frontend:** React + Tailwind CSS  
+- **Backend:** Node.js (Express)  
+- **Base de datos:** MySQL  
 
-In the project directory, you can run:
+### Autenticación simple
 
-### `npm start`
+- `POST /api/auth/login` → Login admin (usa `.env` para email y contraseña)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🖼️ Frontend (React)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Principales páginas
 
-### `npm test`
+| Ruta                   | Descripción                                 |
+|------------------------|---------------------------------------------|
+| `/`                    | Listado de jugadores (cards tipo FIFA)      |
+| `/rankings`           | Rankings por estadísticas                   |
+| `/calendario`         | Partidos pasados y próximos con filtro      |
+| `/admin`              | Carga de partidos + estadísticas            |
+| `/cargar-jugador`     | Formulario básico de jugador                |
+| `/agregar-jugador`    | Formulario completo de jugador              |
+| `/jugador/:id`        | Detalle individual con historial de partidos|
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Componentes clave
 
-### `npm run build`
+- `JugadorCard.jsx` → Card visual estilo FIFA (con medalla si top 3)  
+- `TopGoleadores.jsx` → Sección destacada con 🥇🥈🥉  
+- `RankingTable.jsx` → Reutilizable para rankings  
+- `PrivateRoute.jsx` → Protege páginas con login  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🔒 Login admin
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Requiere: `token = 'admin-token'` en localStorage  
+- Login en `/login`  
+- Rutas protegidas: `/admin`, `/cargar-jugador`, `/agregar-jugador`  
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ✅ Validaciones
 
-### `npm run eject`
+- Campos obligatorios marcados en rojo si están vacíos  
+- Número de camiseta requerido  
+- Manejo de errores de conexión  
+- Cards truncadas para evitar desbordes visuales
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
