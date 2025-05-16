@@ -7,7 +7,6 @@ const TopGoleadores = () => {
     const fetchTop = async () => {
       const res = await fetch('/api/rankings/top3');
       const data = await res.json();
-      console.log(data)
       setGoleadores(data.slice(0, 3)); // Top 3
     };
 
