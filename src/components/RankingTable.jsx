@@ -18,7 +18,7 @@ const RankingTable = ({ titulo, icono: Icono, datos, campoValor }) => {
           {datos.map((jugador, index) => (
             <tr key={jugador.id} className="border-b last:border-none">
               <td className="py-2">{index + 1}</td>
-              <td>{jugador.nombre}</td>
+              <td>{jugador.nombre} {jugador.apellido}</td>
               <td className="text-right font-semibold">
                 {jugador[`total_${campoValor.toLowerCase()}`] ?? jugador[campoValor.toLowerCase()]}
               </td>
