@@ -10,6 +10,7 @@ const DetalleJugador = () => {
     const fetchDatos = async () => {
       const resJugador = await fetch(`/api/jugador/${id}/estadisticas`);
       const dataJugador = await resJugador.json();
+      console.log(dataJugador);
       setJugador(dataJugador);
 
       const resHistorial = await fetch(`/api/estadisticas/jugador/${id}`);

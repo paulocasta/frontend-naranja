@@ -17,7 +17,7 @@ const AdminPanel = () => {
       setJugadores(data);
       setEstadisticas(
         Object.fromEntries(data.map(j => [j.id, {
-          goles: 0, asistencias: 0, tarjetas_amarillas: 0, tarjetas_rojas: 0
+          goles: 0, asistencias: 0, tarjetas_amarillas: 0, tarjetas_rojas: 0, asistio_partido: true
         }]))
       );
     };
@@ -59,9 +59,9 @@ const AdminPanel = () => {
 
     for (const jugadorId in estadisticas) {
       const stats = estadisticas[jugadorId];
-      const { goles, asistencias, tarjetas_amarillas, tarjetas_rojas } = stats;
+      const { goles, asistencias, tarjetas_amarillas, tarjetas_rojas, asistio_partido} = stats;
 
-      if (goles || asistencias || tarjetas_amarillas || tarjetas_rojas) {
+      if (asistio_partido || goles || asistencias || tarjetas_amarillas || tarjetas_rojas) {
         await fetch('/api/estadisticas', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -151,6 +151,7 @@ const AdminPanel = () => {
                 <th>Asistencias</th>
                 <th>Amarillas</th>
                 <th>Rojas</th>
+                <th>Asistio Partido</th>
               </tr>
             </thead>
             <tbody>
@@ -165,6 +166,8 @@ const AdminPanel = () => {
                     onChange={e => handleStatChange(j.id, 'tarjetas_amarillas', e.target.value)} className="w-16 border rounded p-1" /></td>
                   <td><input type="number" min="0" value={estadisticas[j.id]?.tarjetas_rojas || 0}
                     onChange={e => handleStatChange(j.id, 'tarjetas_rojas', e.target.value)} className="w-16 border rounded p-1" /></td>
+                  <td><input type="checkbox" defaultChecked={estadisticas[j.id]?.asistio_partido || true}
+                    onChange={e => handleStatChange(j.id, 'asistio_partido', e.target.value)} className="w-16 border rounded p-1" /></td>
                 </tr>
               ))}
             </tbody>

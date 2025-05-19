@@ -75,7 +75,7 @@ const JugadorCard = ({ jugador, rankingGoleador }) => {
             </div>
             <div className="text-center col-span-2 border-t border-white/20 pt-2 mt-2">
               <p className="text-xs opacity-80">Partidos</p>
-              <p className="text-lg font-bold">{jugador.partido_jugados}</p>
+              <p className="text-lg font-bold">{jugador.partidos_jugados}</p>
             </div>
           </div>
         </div>
