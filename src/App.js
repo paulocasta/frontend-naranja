@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import PrivateRoute from './components/PrivateRoute';
 import AgregarJugadorIndividual from './pages/AgregarJugadorIndividual';
 import DetalleJugador from './pages/DetalleJugador';
+import AdminLavados from './pages/AdminLavados';
 
 function AppWrapper() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function AppWrapper() {
           <>
             <Link to="/admin" className="hover:underline">Cargar partido</Link>
             <Link to="/agregar-jugador" className="hover:underline">Agregar Jugador</Link>
+            <Link to="/lavados" className="hover:underline">Agregar Lavado</Link>
             <button
               onClick={cerrarSesion}
               className="ml-auto text-sm bg-white text-orange-700 px-3 py-1 rounded hover:bg-orange-100"
@@ -68,6 +70,11 @@ function AppWrapper() {
             </PrivateRoute>
           }
         />
+        <Route path="/lavados" element={
+          <PrivateRoute>
+            <AdminLavados />
+          </PrivateRoute>
+        } />
       </Routes>
     </>
   );
