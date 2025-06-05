@@ -28,7 +28,6 @@ const Jugadores = () => {
   
   useEffect(() => {
     
-    
     const fetchAniosPartidos = async () => {
       const res = await fetch('/api/partido/totalAnios/');
       const data = await res.json();
@@ -38,13 +37,12 @@ const Jugadores = () => {
     fetchAniosPartidos(); 
     fetchPartidos(anioActual);
     fetchJugadores(anioActual);
-  }, []);
+  }, [anioActual]);
 
   const handleChange = async (anio) => {
     if (isNaN(anio)) 
       return
     if (anio !== mesSeleccionado) {
-      console.log(anio);
       setMesSeleccionado(anio);
 
       try {
@@ -75,7 +73,6 @@ const Jugadores = () => {
     const fetchPartidos = async (anio) => {
       const res = await fetch(`/api/partido/totalPartidos/${anio}`);
       const data = await res.json();
-      console.log(`total partidos ${anio}`)  
       setTotalPartidos(data);
     };
 

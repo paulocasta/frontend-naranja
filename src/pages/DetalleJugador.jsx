@@ -10,7 +10,6 @@ const DetalleJugador = () => {
     const fetchDatos = async () => {
       const resJugador = await fetch(`/api/jugador/${id}/estadisticas`);
       const dataJugador = await resJugador.json();
-      console.log(dataJugador);
       setJugador(dataJugador);
 
       const resHistorial = await fetch(`/api/estadisticas/jugador/${id}`);
@@ -27,7 +26,7 @@ const DetalleJugador = () => {
     <div className="min-h-screen bg-orange-50 p-6">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
         <div className="flex flex-col items-center mb-6">
-          <img src={jugador.foto_url || 'https://via.placeholder.com/150'} className="w-32 h-32 rounded-full border-4 border-orange-600 object-cover" />
+          <img src={jugador.foto_url} className="w-32 h-32 rounded-full border-4 border-orange-600 object-cover" />
           <h1 className="text-3xl font-bold text-orange-700 mt-2">{jugador.nombre}</h1>
           <p className="text-sm text-gray-600">{jugador.posicion}</p>
           <p className="text-sm text-gray-500"># {jugador.numero}</p>
