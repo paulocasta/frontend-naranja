@@ -80,7 +80,7 @@ const Calendario = () => {
           <option value="todos">Todos los meses</option>
           {mesesDisponibles.map((mes) => (
             <option key={mes} value={mes}>
-              {mes[0].toUpperCase() + mes.slice(1)}
+              {mes}
             </option>
           ))}
         </select>

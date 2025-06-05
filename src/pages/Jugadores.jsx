@@ -22,38 +22,67 @@ const Jugadores = () => {
   const [activeTab, setActiveTab] = useState('todos');
   const [busqueda, setBusqueda] = useState('');
   const [totalPartidos, setTotalPartidos] = useState(0);
-
+  const [mesesDisponibles, setMesesDisponibles] = useState([]);
+  const [mesSeleccionado, setMesSeleccionado] = useState();
+  const anioActual = new Date().getFullYear();
+  
   useEffect(() => {
-    const fetchJugadores = async () => {
-      const res = await fetch('/api/jugador');
+    
+    
+    const fetchAniosPartidos = async () => {
+      const res = await fetch('/api/partido/totalAnios/');
       const data = await res.json();
-
-      const jugadoresConStats = await Promise.all(
-        data.map(async (jugador) => {
-          const resStats = await fetch(`/api/jugador/${jugador.id}/estadisticas`);
-          const stats = await resStats.json();
-          return { ...jugador, ...stats };
-        })
-      );
-
-      const ordenados = jugadoresConStats.sort((a, b) => a.numero - b.numero);
-      setJugadores(ordenados);
+      setMesesDisponibles(data);
     };
 
-    const fetchPartidos = async () => {
-      const res = await fetch('/api/partido/totalPartidos');
+    fetchAniosPartidos(); 
+    fetchPartidos(anioActual);
+    fetchJugadores(anioActual);
+  }, []);
+
+  const handleChange = async (anio) => {
+    if (isNaN(anio)) 
+      return
+    if (anio !== mesSeleccionado) {
+      console.log(anio);
+      setMesSeleccionado(anio);
+
+      try {
+        fetchPartidos(anio);
+        fetchJugadores(anio);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  const fetchJugadores = async (anio) => {
+    const res = await fetch('/api/jugador');
+    const data = await res.json();
+    
+    const jugadoresConStats = await Promise.all(
+      data.map(async (jugador) => {
+        const resStats = await fetch(`/api/jugador/${jugador.id}/estadisticas/${anio}`);
+        const stats = await resStats.json();
+        return { ...jugador, ...stats };
+      })
+    );
+
+    const ordenados = jugadoresConStats.sort((a, b) => a.numero - b.numero);
+    setJugadores(ordenados);
+  };
+
+    const fetchPartidos = async (anio) => {
+      const res = await fetch(`/api/partido/totalPartidos/${anio}`);
       const data = await res.json();
-  
+      console.log(`total partidos ${anio}`)  
       setTotalPartidos(data);
     };
-   
-    fetchPartidos();
-    fetchJugadores();
-  }, []);
 
   const filtrarPorPosicion = (j) => {
     const pos = j.posicion_inicial?.toLowerCase();
     const pos_sec = j.posicion_secundaria?.toLowerCase();
+    
     switch (activeTab) {
       case 'arquero':
         return pos.includes('arquero') || pos_sec.includes('arquero');
@@ -104,6 +133,23 @@ const Jugadores = () => {
           onChange={(e) => setBusqueda(e.target.value)}
           className="w-full p-2 border rounded text-sm"
         />
+
+      {/* Filtro por mes */}
+      <div className="max-w-xl mx-auto mb-6">
+        <select
+          className="mt-2 w-full p-2 border rounded text-sm"
+          value={mesSeleccionado}
+          onChange={(e) => handleChange(e.target.value)}
+        >
+          <option value="Seleccione un año">Seleccione un año</option>
+            {mesesDisponibles.map((mes) => (
+              <option key={mes} value={mes}>
+                {mes}
+              </option>
+            ))}
+          </select>
+        </div>
+
       </div>
       
       {/* Tabs por posición */}
