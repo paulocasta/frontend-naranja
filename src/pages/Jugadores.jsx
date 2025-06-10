@@ -27,7 +27,6 @@ const Jugadores = () => {
   const anioActual = new Date().getFullYear();
   
   useEffect(() => {
-    
     const fetchAniosPartidos = async () => {
       const res = await fetch('/api/partido/totalAnios/');
       const data = await res.json();
