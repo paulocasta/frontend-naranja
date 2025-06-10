@@ -34,6 +34,7 @@ const Jugadores = () => {
       setMesesDisponibles(data);
     };
 
+    setMesSeleccionado(anioActual);
     fetchAniosPartidos(); 
     fetchPartidos(anioActual);
     fetchJugadores(anioActual);
@@ -57,7 +58,6 @@ const Jugadores = () => {
   const fetchJugadores = async (anio) => {
     const res = await fetch(`/api/estadisticas/jugadores/${anio}`);
     const ordenados = await res.json();
-    console.log(res);
     setJugadores(ordenados);
   };
 
@@ -191,7 +191,7 @@ const Jugadores = () => {
         ))}
       </div>
 
-      <TopGoleadores />
+      <TopGoleadores anio={mesSeleccionado}/>
     </div>
   );
 };

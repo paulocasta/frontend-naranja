@@ -25,9 +25,36 @@ const Rankings = () => {
     rojas: [],
     partidos: []
   });
+  const [mesesDisponibles, setMesesDisponibles] = useState([]);
+  const [mesSeleccionado, setMesSeleccionado] = useState();
+  const anioActual = new Date().getFullYear();
 
   useEffect(() => {
-    const fetchAll = async () => {
+    const fetchAniosPartidos = async () => {
+      const res = await fetch('/api/partido/totalAnios/');
+      const data = await res.json();
+      setMesesDisponibles(data);
+    };
+
+    fetchAniosPartidos();
+    fetchAll(anioActual);
+  }, [anioActual]);
+
+  const handleChange = async (anio) => {
+    if (isNaN(anio)) 
+      return
+    if (anio !== mesSeleccionado) {
+      setMesSeleccionado(anio);
+
+      try {
+        fetchAll(anio);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
+  const fetchAll = async (anio) => {
       const endpoints = {
         goleadores: 'goleadores',
         asistencias: 'asistencias',
@@ -38,17 +65,15 @@ const Rankings = () => {
 
       const results = {};
       for (const key in endpoints) {
-        const res = await fetch(`/api/rankings/${endpoints[key]}`);
+        const res = await fetch(`/api/rankings/${endpoints[key]}/${anio}`);
         results[key] = await res.json();
       }
       setData(results);
-    };
-
-    fetchAll();
-  }, []);
+    };  
 
   const currentTab = tabs.find((t) => t.id === activeTab);
   const currentData = data[activeTab];
+  
 
   return (
     <div className="min-h-screen bg-orange-50 p-6">
@@ -70,6 +95,22 @@ const Rankings = () => {
             {label}
           </button>
         ))}
+      </div>
+
+      {/* Filtro por mes */}
+      <div className="max-w-xl mx-auto mb-6">
+        <select
+          className="mt-2 w-full p-2 border rounded text-sm"
+          value={mesSeleccionado}
+          onChange={(e) => handleChange(e.target.value)}
+        >
+          <option value="Seleccione un año">Seleccione un año</option>
+            {mesesDisponibles.map((mes) => (
+              <option key={mes} value={mes}>
+                {mes}
+              </option>
+            ))}
+          </select>
       </div>
 
       {/* Ranking actual */}
