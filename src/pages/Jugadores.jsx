@@ -55,18 +55,9 @@ const Jugadores = () => {
   };
 
   const fetchJugadores = async (anio) => {
-    const res = await fetch('/api/jugador');
-    const data = await res.json();
-    
-    const jugadoresConStats = await Promise.all(
-      data.map(async (jugador) => {
-        const resStats = await fetch(`/api/jugador/${jugador.id}/estadisticas/${anio}`);
-        const stats = await resStats.json();
-        return { ...jugador, ...stats };
-      })
-    );
-
-    const ordenados = jugadoresConStats.sort((a, b) => a.numero - b.numero);
+    const res = await fetch(`/api/estadisticas/jugadores/${anio}`);
+    const ordenados = await res.json();
+    console.log(res);
     setJugadores(ordenados);
   };
 
