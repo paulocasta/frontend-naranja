@@ -12,6 +12,7 @@ const EditarPartido = () => {
     asistencias: 0,
     tarjetas_amarillas: 0,
     tarjetas_rojas: 0,
+    asistio: false
   });
 
   useEffect(() => {
@@ -41,6 +42,14 @@ const EditarPartido = () => {
     setEstadisticas((prev) =>
       prev.map((e) =>
         e.id === id ? { ...e, [campo]: parseInt(valor) || 0 } : e
+      )
+    );
+  };
+  const handleEditarCheck = (id, campo, valor) => {
+    console.log('handleEditarCheck', valor);
+    setEstadisticas((prev) =>
+      prev.map((e) =>
+        e.id === id ? { ...e, [campo]: valor || false } : e
       )
     );
   };
@@ -105,6 +114,7 @@ const EditarPartido = () => {
                 <th>Asist.</th>
                 <th>Ama.</th>
                 <th>Rojas</th>
+                <th>Atajo</th>
                 <th></th>
               </tr>
             </thead>
@@ -132,6 +142,11 @@ const EditarPartido = () => {
                       onChange={(ev) => handleEditar(e.id, 'tarjetas_rojas', ev.target.value)}
                       className="w-14 border p-1 rounded" />
                   </td>
+                     <td>
+                    <input type="checkbox" defaultChecked={e.atajo || false}
+                      onChange={(ev) => handleEditarCheck(e.id, 'atajo', ev.target.checked)}
+                      className="w-14 border p-1 rounded" />
+                  </td>
                   <td className="flex gap-2 items-center mt-1">
                     <button
                       onClick={() =>
@@ -140,6 +155,7 @@ const EditarPartido = () => {
                           asistencias: e.asistencias,
                           tarjetas_amarillas: e.tarjetas_amarillas,
                           tarjetas_rojas: e.tarjetas_rojas,
+                          atajo: e.atajo
                         })
                       }
                       className="text-sm bg-green-600 text-white px-2 py-1 rounded hover:bg-green-700"

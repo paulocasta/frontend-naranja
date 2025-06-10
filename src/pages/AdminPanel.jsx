@@ -17,7 +17,7 @@ const AdminPanel = () => {
       setJugadores(data);
       setEstadisticas(
         Object.fromEntries(data.map(j => [j.id, {
-          goles: 0, asistencias: 0, tarjetas_amarillas: 0, tarjetas_rojas: 0, asistio_partido: true
+          goles: 0, asistencias: 0, tarjetas_amarillas: 0, tarjetas_rojas: 0, asistio_partido: true, atajo:false
         }]))
       );
     };
@@ -28,6 +28,13 @@ const AdminPanel = () => {
     setEstadisticas(prev => ({
       ...prev,
       [jugadorId]: { ...prev[jugadorId], [campo]: parseInt(valor) || 0 }
+    }));
+  };
+
+  const handleBoolStatChange = (jugadorId, campo, event) => {
+    setEstadisticas(prev => ({
+      ...prev,
+      [jugadorId]: { ...prev[jugadorId], [campo]: event.target.checked || false }
     }));
   };
 
@@ -59,16 +66,16 @@ const AdminPanel = () => {
 
     for (const jugadorId in estadisticas) {
       const stats = estadisticas[jugadorId];
-      const { goles, asistencias, tarjetas_amarillas, tarjetas_rojas, asistio_partido} = stats;
-
-      if (asistio_partido || goles || asistencias || tarjetas_amarillas || tarjetas_rojas) {
+      const { goles, asistencias, tarjetas_amarillas, tarjetas_rojas, asistio_partido, atajo} = stats;
+    
+      if (asistio_partido) {
         await fetch('/api/estadisticas', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             jugador_id: jugadorId,
             partido_id: partido.id,
-            goles, asistencias, tarjetas_amarillas, tarjetas_rojas
+            goles, asistencias, tarjetas_amarillas, tarjetas_rojas, asistio_partido, atajo   
           })
         });
       }
@@ -152,6 +159,7 @@ const AdminPanel = () => {
                 <th>Amarillas</th>
                 <th>Rojas</th>
                 <th>Asistio Partido</th>
+                <th>Atajo</th>
               </tr>
             </thead>
             <tbody>
@@ -167,7 +175,9 @@ const AdminPanel = () => {
                   <td><input type="number" min="0" value={estadisticas[j.id]?.tarjetas_rojas || 0}
                     onChange={e => handleStatChange(j.id, 'tarjetas_rojas', e.target.value)} className="w-16 border rounded p-1" /></td>
                   <td><input type="checkbox" defaultChecked={estadisticas[j.id]?.asistio_partido || true}
-                    onChange={e => handleStatChange(j.id, 'asistio_partido', e.target.value)} className="w-16 border rounded p-1" /></td>
+                    onChange={e => handleBoolStatChange(j.id, 'asistio_partido', e)} className="w-16 border rounded p-1" /></td>
+                  <td><input type="checkbox" defaultChecked={estadisticas[j.id]?.atajo || false}
+                    onChange={e => handleBoolStatChange(j.id, 'atajo',e)} className="w-16 border rounded p-1" /></td>
                 </tr>
               ))}
             </tbody>
