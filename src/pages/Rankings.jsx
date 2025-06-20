@@ -10,12 +10,12 @@ import {
 } from 'lucide-react';
 
 const tabs = [
-  { id: 'goleadores', label: 'Goleadores', icon: Goal },
-  { id: 'asistencias', label: 'Asistencias', icon: Footprints },
-  { id: 'amarillas', label: 'Amarillas', icon: CircleAlert },
-  { id: 'rojas', label: 'Rojas', icon: CircleSlash },
-  { id: 'partidos', label: 'Partidos', icon: Users },
-  { id: 'arqueros', label: 'Arqueros', icon: Hand }
+  { id: 'goleadores', titulo: 'Goleadores', label: 'Goles', icon: Goal },
+  { id: 'asistencias',  titulo: 'Asistencias', label: 'Asistencias', icon: Footprints },
+  { id: 'amarillas', titulo: 'Amarillas', label: 'Amarillas', icon: CircleAlert },
+  { id: 'rojas', titulo: 'Rojas', label: 'Rojas', icon: CircleSlash },
+  { id: 'partidos', titulo: 'Partidos', label: 'Partidos', icon: Users },
+  { id: 'arqueros',  titulo: 'Arquero', label: 'Goles', icon: Hand }
 ];
 
 const Rankings = () => {
@@ -120,7 +120,7 @@ const Rankings = () => {
       {/* Ranking actual */}
       <div className="flex justify-center">
         <RankingTable
-          titulo={currentTab.label}
+          titulo={currentTab.titulo}
           icono={currentTab.icon}
           datos={currentData}
           campoValor={currentTab.label}
