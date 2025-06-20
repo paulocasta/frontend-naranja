@@ -12,9 +12,10 @@ const EditarPartido = () => {
     asistencias: 0,
     tarjetas_amarillas: 0,
     tarjetas_rojas: 0,
-    asistio: false
+    asistio: false,
+    atajo:false
   });
-
+  const campos = ['goles', 'asistencias', 'tarjetas_amarillas', 'tarjetas_rojas','atajo'];
   useEffect(() => {
     const fetchPartidos = async () => {
       const res = await fetch('/api/partido');
@@ -46,7 +47,6 @@ const EditarPartido = () => {
     );
   };
   const handleEditarCheck = (id, campo, valor) => {
-    console.log('handleEditarCheck', valor);
     setEstadisticas((prev) =>
       prev.map((e) =>
         e.id === id ? { ...e, [campo]: valor || false } : e
@@ -211,15 +211,14 @@ const EditarPartido = () => {
                     <option key={j.id} value={j.id}>{j.nombre} {j.apellido}</option>
                 ))}
                 </select>
-
-                {['goles', 'asistencias', 'tarjetas_amarillas', 'tarjetas_rojas'].map((campo) => (
+                {campos.map((campo) => (
                 <input
                     key={campo}
-                    type="number"
+                    type={campo==='atajo'?'checkbox':'number'}
                     min="0"
                     value={nuevoStats[campo]}
                     onChange={(e) =>
-                    setNuevoStats((prev) => ({ ...prev, [campo]: parseInt(e.target.value) || 0 }))
+                    setNuevoStats((prev) => ({ ...prev, [campo]: (campo!=='atajo') ? parseInt(e.target.value) || 0 : e.target.checked || false}))
                     }
                     placeholder={campo}
                     className="w-24 border p-1 rounded"
@@ -231,7 +230,6 @@ const EditarPartido = () => {
                 </button>
             </form>
             </div>
-
         </div>
       )}
     </div>
