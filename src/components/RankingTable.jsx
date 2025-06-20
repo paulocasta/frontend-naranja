@@ -1,5 +1,4 @@
 const RankingTable = ({ titulo, label, icono: Icono, datos, campoValor }) => {
-  console.log(datos);
   return (
     <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-md">
       <div className="flex items-center gap-2 mb-4">
