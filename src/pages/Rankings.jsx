@@ -15,7 +15,7 @@ const tabs = [
   { id: 'amarillas', titulo: 'Amarillas', label: 'Amarillas', icon: CircleAlert },
   { id: 'rojas', titulo: 'Rojas', label: 'Rojas', icon: CircleSlash },
   { id: 'partidos', titulo: 'Partidos', label: 'Partidos', icon: Users },
-  { id: 'arqueros',  titulo: 'Arquero', label: 'Goles', icon: Hand }
+  { id: 'arqueros',  titulo: 'Arqueros', label: 'Goles', icon: Hand }
 ];
 
 const Rankings = () => {
@@ -85,7 +85,7 @@ const Rankings = () => {
 
       {/* Tabs */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
-        {tabs.map(({ id, label, icon: Icon }) => (
+        {tabs.map(({ id, titulo, icon: Icon }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
@@ -96,7 +96,7 @@ const Rankings = () => {
             }`}
           >
             <Icon size={16} />
-            {label}
+            {titulo}
           </button>
         ))}
       </div>
@@ -121,6 +121,7 @@ const Rankings = () => {
       <div className="flex justify-center">
         <RankingTable
           titulo={currentTab.titulo}
+          label={currentTab.label}
           icono={currentTab.icon}
           datos={currentData}
           campoValor={currentTab.label}

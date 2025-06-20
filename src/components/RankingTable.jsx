@@ -1,4 +1,5 @@
-const RankingTable = ({ titulo, icono: Icono, datos, campoValor }) => {
+const RankingTable = ({ titulo, label, icono: Icono, datos, campoValor }) => {
+  console.log(datos);
   return (
     <div className="bg-white rounded-xl shadow-md p-4 w-full max-w-md">
       <div className="flex items-center gap-2 mb-4">
@@ -11,7 +12,7 @@ const RankingTable = ({ titulo, icono: Icono, datos, campoValor }) => {
           <tr className="text-left text-gray-500 border-b">
             <th>#</th>
             <th>Jugador</th>
-            <th className="text-right">{campoValor}</th>
+            <th className="text-right">{label}</th>
           </tr>
         </thead>
         <tbody>
