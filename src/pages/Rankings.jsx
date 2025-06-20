@@ -5,15 +5,17 @@ import {
   Hand,
   Users,
   CircleAlert,
-  CircleSlash
+  CircleSlash,
+  Footprints
 } from 'lucide-react';
 
 const tabs = [
   { id: 'goleadores', label: 'Goleadores', icon: Goal },
-  { id: 'asistencias', label: 'Asistencias', icon: Hand },
+  { id: 'asistencias', label: 'Asistencias', icon: Footprints },
   { id: 'amarillas', label: 'Amarillas', icon: CircleAlert },
   { id: 'rojas', label: 'Rojas', icon: CircleSlash },
-  { id: 'partidos', label: 'Partidos', icon: Users }
+  { id: 'partidos', label: 'Partidos', icon: Users },
+  { id: 'arqueros', label: 'Arqueros', icon: Hand }
 ];
 
 const Rankings = () => {
@@ -23,7 +25,8 @@ const Rankings = () => {
     asistencias: [],
     amarillas: [],
     rojas: [],
-    partidos: []
+    partidos: [],
+    arqueros: []
   });
   const [mesesDisponibles, setMesesDisponibles] = useState([]);
   const [mesSeleccionado, setMesSeleccionado] = useState();
@@ -60,7 +63,8 @@ const Rankings = () => {
         asistencias: 'asistencias',
         amarillas: 'amarillas',
         rojas: 'rojas',
-        partidos: 'partidos'
+        partidos: 'partidos',
+        arqueros: 'arqueros'
       };
 
       const results = {};

@@ -89,6 +89,7 @@ const EditarPartido = () => {
           onChange={(e) => {
             setPartidoSeleccionado(e.target.value);
             cargarEstadisticas(e.target.value);
+            setMensaje(null);
           }}
           className="w-full border p-2 rounded"
         >
