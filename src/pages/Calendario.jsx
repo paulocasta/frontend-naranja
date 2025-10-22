@@ -5,28 +5,16 @@ const Calendario = () => {
   const [partidos, setPartidos] = useState([]);
   const [partidoAbierto, setPartidoAbierto] = useState(null);
   const [goleadores, setGoleadores] = useState({});
-  const [mesesDisponibles, setMesesDisponibles] = useState([]);
-  const [mesSeleccionado, setMesSeleccionado] = useState('todos');
+  const [torneosDisponibles, setTorneosDisponibles] = useState([]);
 
   useEffect(() => {
-    const fetchPartidos = async () => {
-      const res = await fetch('/api/partido');
+    const fetchTorneos = async () => {
+      const res = await fetch('/api/torneos');
       const data = await res.json();
-
-      const ordenados = data.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-      setPartidos(ordenados);
-
-      const mesesUnicos = Array.from(
-        new Set(
-          ordenados.map((p) =>
-            new Date(p.fecha).toLocaleDateString('es-AR', { year: 'numeric', month: 'long' })
-          )
-        )
-      );
-      setMesesDisponibles(mesesUnicos);
+      setTorneosDisponibles(data);
     };
 
-    fetchPartidos();
+    fetchTorneos();
   }, []);
 
   const togglePartido = async (id) => {
@@ -54,14 +42,11 @@ const Calendario = () => {
     });
   };
 
-  const partidosFiltrados =
-    mesSeleccionado === 'todos'
-      ? partidos
-      : partidos.filter(
-          (p) =>
-            new Date(p.fecha).toLocaleDateString('es-AR', { year: 'numeric', month: 'long' }) ===
-            mesSeleccionado
-        );
+  const torneoSeleccionado = async (id) => {
+      const res = await fetch(`/api/partido/torneo/${id}`);
+      const data = await res.json();
+      setPartidos(data);
+  };    
 
   return (
     <div className="min-h-screen bg-orange-50 p-6">
@@ -70,17 +55,17 @@ const Calendario = () => {
         <h1 className="text-3xl font-bold text-orange-700">Calendario de Partidos</h1>
       </div>
 
-      {/* Filtro por mes */}
+      {/* Filtro por torneo */}
       <div className="max-w-xl mx-auto mb-6">
         <select
           className="w-full p-2 border rounded text-sm"
-          value={mesSeleccionado}
-          onChange={(e) => setMesSeleccionado(e.target.value)}
+          value={torneoSeleccionado}
+          onChange={(e) => torneoSeleccionado(e.target.value)}
         >
-          <option value="todos">Todos los meses</option>
-          {mesesDisponibles.map((mes) => (
-            <option key={mes} value={mes}>
-              {mes}
+          <option value="seleccione torneo">Seleccione Torneo</option>
+          {torneosDisponibles.map((torneo) => (
+            <option key={torneo.id} value={torneo.id}>
+              {torneo.anio}-{torneo.tipo}
             </option>
           ))}
         </select>
@@ -88,7 +73,7 @@ const Calendario = () => {
 
       {/* Lista de partidos */}
       <div className="max-w-3xl mx-auto space-y-4">
-        {partidosFiltrados.map((p) => {
+        {partidos.map((p) => {
           const jugado = p.goles_equipo !== null && p.goles_rival !== null;
           const IconoEstado = jugado ? ShieldCheck : Clock8;
           const abierto = partidoAbierto === p.id;

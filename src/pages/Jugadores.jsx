@@ -22,49 +22,45 @@ const Jugadores = () => {
   const [activeTab, setActiveTab] = useState('todos');
   const [busqueda, setBusqueda] = useState('');
   const [totalPartidos, setTotalPartidos] = useState(0);
-  const [mesesDisponibles, setMesesDisponibles] = useState([]);
-  const [mesSeleccionado, setMesSeleccionado] = useState();
-  const anioActual = new Date().getFullYear();
-  
+  const [torneosDisponibles, setTorneosDisponibles] = useState([]);
+  const [torneoSeleccionado, setTorneoSeleccionado] = useState(0);
+
   useEffect(() => {
-    const fetchAniosPartidos = async () => {
-      const res = await fetch('/api/partido/totalAnios/');
-      const data = await res.json();
-      setMesesDisponibles(data);
+    const fetchTorneos = async () => {
+      const res = await fetch('/api/partido/torneos/')
+      const data = await res.json()
+      setTorneosDisponibles(data)
     };
 
-    setMesSeleccionado(anioActual);
-    fetchAniosPartidos(); 
-    fetchPartidos(anioActual);
-    fetchJugadores(anioActual);
-  }, [anioActual]);
+    fetchTorneos(); 
+  },[]);
 
-  const handleChange = async (anio) => {
-    if (isNaN(anio)) 
+  const cambiarTorneo = async (torneoId) => {
+    if (isNaN(torneoId)) 
       return
-    if (anio !== mesSeleccionado) {
-      setMesSeleccionado(anio);
+    
+    setTorneoSeleccionado(torneoId);
 
-      try {
-        fetchPartidos(anio);
-        fetchJugadores(anio);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    try {
+      fetchPartidos(torneoId);
+      fetchJugadores(torneoId);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+    
   };
 
-  const fetchJugadores = async (anio) => {
-    const res = await fetch(`/api/estadisticas/jugadores/${anio}`);
+  const fetchJugadores = async (torneoId) => {
+    const res = await fetch(`/api/estadisticas/jugadores/torneo/${torneoId}`);
     const ordenados = await res.json();
     setJugadores(ordenados);
   };
 
-    const fetchPartidos = async (anio) => {
-      const res = await fetch(`/api/partido/totalPartidos/${anio}`);
-      const data = await res.json();
-      setTotalPartidos(data);
-    };
+  const fetchPartidos = async (torneoId) => {
+    const res = await fetch(`/api/partido/totalPartidos/torneo/${torneoId}`);
+    const data = await res.json();
+    setTotalPartidos(data);
+  };
 
   const filtrarPorPosicion = (j) => {
     const pos = j.posicion_inicial?.toLowerCase();
@@ -120,18 +116,18 @@ const Jugadores = () => {
           onChange={(e) => setBusqueda(e.target.value)}
           className="w-full p-2 border rounded text-sm"
         />
-
-      {/* Filtro por mes */}
+   
+      {/* Filtro por torneo */}
       <div className="max-w-xl mx-auto mb-6">
         <select
           className="mt-2 w-full p-2 border rounded text-sm"
-          value={mesSeleccionado}
-          onChange={(e) => handleChange(e.target.value)}
+          value={torneoSeleccionado}
+          onChange={(e) => cambiarTorneo(e.target.value)}
         >
-          <option value="Seleccione un año">Seleccione un año</option>
-            {mesesDisponibles.map((mes) => (
-              <option key={mes} value={mes}>
-                {mes}
+          <option value="Seleccione un torneo">Seleccione un torneo</option>
+            {torneosDisponibles.map((torneo) => (
+              <option key={torneo.id} value={torneo.id}>
+                {torneo.anio}-{torneo.tipo}
               </option>
             ))}
           </select>
@@ -189,8 +185,9 @@ const Jugadores = () => {
           <JugadorCard key={jugador.id} jugador={jugador} />
         ))}
       </div>
-
-      <TopGoleadores anio={mesSeleccionado}/>
+      {
+      (torneoSeleccionado === 0) ? '' : <TopGoleadores torneoId={torneoSeleccionado}/>
+      }
     </div>
   );
 };

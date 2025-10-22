@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
 import TopCard from './TopCard';
 
-const TopGoleadores = (anioActual) => {
+const TopGoleadores = (torneo) => {
   const [goleadores, setGoleadores] = useState([]);
-  const {anio} = anioActual;
+  const {torneoId} = torneo;
+  
   useEffect(() => {
     const fetchTop = async () => {
-      const res = await fetch(`/api/rankings/top3/${anio}`);
+      const res = await fetch(`/api/rankings/top3/torneo/${torneoId}`);
       const data = await res.json();
       setGoleadores(data.slice(0, 3)); // Top 3
     };
 
     fetchTop();
-  }, [anio]);
+  }, [torneoId]);
   
   return (
     <div className="bg-orange-100 py-8 px-4 mt-4">
