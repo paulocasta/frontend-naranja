@@ -96,7 +96,7 @@ const EditarPartido = () => {
           <option value="">Elegir...</option>
           {partidos.map((p) => (
             <option key={p.id} value={p.id}>
-              {new Date(p.fecha).toLocaleDateString()} vs {p.rival}
+              {p.anio}-{p.tipo} VS {p.rival}
             </option>
           ))}
         </select>

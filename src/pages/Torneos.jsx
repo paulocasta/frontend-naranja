@@ -92,7 +92,8 @@ const AdminPanel = () => {
             tarjetas_amarillas, 
             tarjetas_rojas, 
             asistio_partido, 
-            atajo   
+            atajo,
+            torneo_id: torneoSeleccionado   
           })
         });
       }
@@ -114,7 +115,7 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-orange-50 p-6">
-      <h1 className="text-3xl font-bold text-orange-700 mb-6 text-center">Panel de Administración</h1>
+      <h1 className="text-3xl font-bold text-orange-700 mb-6 text-center">Agregar Partido</h1>
 
       <form onSubmit={handleSubmit} className="max-w-3xl mx-auto bg-white rounded-xl shadow p-6 space-y-6">
 

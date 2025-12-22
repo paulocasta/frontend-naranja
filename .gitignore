@@ -10,6 +10,8 @@
 
 # production
 /build
+#
+Dockerfile
 
 # misc
 .DS_Store
@@ -17,6 +19,9 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.dockerignore
+.git
+.gitignore
 
 npm-debug.log*
 yarn-debug.log*
