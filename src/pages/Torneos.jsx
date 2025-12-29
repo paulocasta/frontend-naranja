@@ -137,7 +137,7 @@ const AdminPanel = () => {
             </select>
           </div>
           
-                {/* Filtro por torneo */}
+          {/* Filtro por torneo */}
           <div>
             <label className="block text-sm font-medium text-orange-700 mb-1">Torneo *</label>
             <select

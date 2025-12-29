@@ -118,3 +118,8 @@ sudo chown -R www-data:www-data /var/www/naranja/frontend
 ## ✅ Listo
 
 Tu frontend ya está corriendo desde el VPS con NGINX. El backend puede estar en puerto `3000`, conectado vía `/api/`.
+
+## Docker
+ejecutar `docker compose up -d` para levar el archivo dockker-compose.yml
+`docker compose build` para crear una nueva version or actualizar la misma
+`docker compose pull` para bajar una version
